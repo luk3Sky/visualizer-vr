@@ -1,4 +1,4 @@
-![Webpack CI](https://github.com/Pera-Swarm/visualizer/workflows/Webpack%20CI/badge.svg)
+![Webpack CI](https://github.com/NuwanJ/pera-swarm-visualizer-vr/workflows/Webpack%20CI/badge.svg)
 
 A basic boilerplate for a Three.js project including the use of Webpack and ES6 syntax via Babel.
 
