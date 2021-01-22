@@ -37,7 +37,7 @@ export default class Robot {
             y = this.scale * Math.min(Math.max(y, Config.arena.minY), Config.arena.maxY);
 
             var loader = new STLLoader();
-            loader.load('./assets/models/model.stl', function(geometry, scene){
+            loader.load('./assets/models/model.stl', function (geometry, scene) {
                 const material = new THREE.MeshStandardMaterial({ color: 0x666666 });
                 const scale = window.scene_scale || 0.1;
 
@@ -46,7 +46,7 @@ export default class Robot {
                 r.receiveShadow = true;
                 r.name = ROBOT_PREFIX + id;
                 r.scale.set(scale, scale, scale);
-                r.position.set(x, 0, -1*y);
+                r.position.set(x, 0, -1 * y);
                 //r.rotation.x = -90 * THREE.Math.DEG2RAD;
                 r.rotation.y = (heading - 90) * THREE.Math.DEG2RAD;
 
@@ -61,7 +61,6 @@ export default class Robot {
                 // Callback function
                 if (callback != undefined) callback('success');
             });
-
         } else {
             this.move(id, x, y, heading, () => {
                 if (callback != undefined) callback('already defined, so moved');
@@ -118,7 +117,7 @@ export default class Robot {
 
             // Limit the arena that robot can go
             x = this.scale * Math.min(Math.max(Math.round(x * 10) / 10, Config.arena.minX), Config.arena.maxX);
-            y = -1* this.scale * Math.min(Math.max(Math.round(y * 10) / 10, Config.arena.minY), Config.arena.maxY);
+            y = -1 * this.scale * Math.min(Math.max(Math.round(y * 10) / 10, Config.arena.minY), Config.arena.maxY);
             heading = Math.round(heading * 10) / 10;
 
             // const speed = 10;
@@ -129,25 +128,25 @@ export default class Robot {
 
             if (distance != 0) {
                 var tween = new TWEEN.Tween(position)
-                .to({ x: x, y: y, heading: newHeading }, 1000 * moveTime)
-                /*.easing(TWEEN.Easing.Quartic.InOut)*/
-                .onUpdate(function () {
-                    r.position.x = position.x;
-                    r.position.z = position.y;
+                    .to({ x: x, y: y, heading: newHeading }, 1000 * moveTime)
+                    /*.easing(TWEEN.Easing.Quartic.InOut)*/
+                    .onUpdate(function () {
+                        r.position.x = position.x;
+                        r.position.z = position.y;
 
-                    if (rotationFlag) {
+                        if (rotationFlag) {
+                            r.rotation.y = position.heading;
+                        } else {
+                            //console.log(currentHeading, newHeading);
+                        }
+                    })
+                    .onComplete(() => {
+                        //console.log('Moved> id:',id,'x:',x,'y:',y,'heading:',heading);
                         r.rotation.y = position.heading;
-                    } else {
-                        //console.log(currentHeading, newHeading);
-                    }
-                })
-                .onComplete(() => {
-                    //console.log('Moved> id:',id,'x:',x,'y:',y,'heading:',heading);
-                    r.rotation.y = position.heading;
-                    if (callback != null) callback('success');
-                })
-                .delay(50)
-                .start();
+                        if (callback != null) callback('success');
+                    })
+                    .delay(50)
+                    .start();
             } else {
                 // No move, only the rotation
                 r.rotation.y = newHeading;

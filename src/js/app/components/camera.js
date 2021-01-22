@@ -28,7 +28,6 @@ export default class Camera {
     updateSize(renderer) {
         // Update camera aspect ratio with window aspect ratio
         //this.threeCamera.aspect = renderer.domElement.width / renderer.domElement.height;
-
         // Always call updateProjectionMatrix on camera change
         //this.threeCamera.updateProjectionMatrix();
     }

@@ -33,8 +33,7 @@ const mouse = new THREE.Vector2();
 
 // This class instantiates and ties all of the components together, starts the loading process and renders the main loop
 export default class Main {
-
-    constructor(container){
+    constructor(container) {
         this.container = container;
 
         if (window.devicePixelRatio) {
@@ -74,8 +73,6 @@ export default class Main {
 
         this.mqtt = new MQTTClient(scene, markerGroup);
 
-
-
         // Set up rStats if dev environment
         if (Config.isDev && Config.isShowingStats) {
             this.stats = new Stats(renderer);
@@ -83,7 +80,6 @@ export default class Main {
         }
 
         THREEAR.initialize({ source: source }).then((controller) => {
-
             // add a torus knot
             // var geometry = new THREE.TorusKnotGeometry(0.3,0.1,64,16);
             // var material = new THREE.MeshNormalMaterial();
@@ -117,16 +113,16 @@ export default class Main {
 
             // run the rendering loop
             var lastTimeMsec = 0;
-            requestAnimationFrame(function animate(nowMsec){
+            requestAnimationFrame(function animate(nowMsec) {
                 // keep looping
-                requestAnimationFrame( animate );
+                requestAnimationFrame(animate);
                 // measure time
-                lastTimeMsec = lastTimeMsec || nowMsec-1000/60;
+                lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60;
                 var deltaMsec = Math.min(200, nowMsec - lastTimeMsec);
                 lastTimeMsec = nowMsec;
 
                 // call each update function
-                controller.update( source.domElement );
+                controller.update(source.domElement);
 
                 // cube.rotation.x += deltaMsec/10000 * Math.PI
                 //torus.rotation.y += deltaMsec/1000 * Math.PI
@@ -139,7 +135,7 @@ export default class Main {
                 }
 
                 // Call render function and pass in created scene and camera
-                renderer.render( scene, camera );
+                renderer.render(scene, camera);
 
                 // rStats has finished determining render call now
                 if (Config.isDev && Config.isShowingStats) {
@@ -152,11 +148,8 @@ export default class Main {
                 // Call any vendor or module frame updates here
                 TWEEN.update();
                 //this.controls.threeControls.update();
-
             });
-
         });
-
 
         this.container.querySelector('#loading').style.display = 'none';
         window.addEventListener('click', this.onDocumentMouseDown, false);
@@ -263,5 +256,4 @@ export default class Main {
             }
         }
     }
-
 }
